@@ -1,18 +1,17 @@
 class Book:
-    def __init__(self, title, author):
+    def __init__(self, title, author, count):
         self.title = title.title()
         self.author = author.title()
+        self.count = count
         self.isAvailable = True
 
 class Library:
-    count = 0
     def __init__(self):
         self.books = []
 
     def add_book(self, book):
         self.books.append(book)
         print(f"{book.title} by {book.author} added to the library")
-        library.count += 1
 
     def display_books(self):
         for book in self.books:
@@ -47,6 +46,7 @@ class Person():
                 if book.title == book_title.title():
                     found = True
                     self.i_book[member] = book
+                    book.count -= 1
                     book.isAvailable = False
                     print(f"{book.author}'s {book.title} book issued to {member}")
                     break
@@ -58,6 +58,7 @@ class Person():
             for book in library.books:
                 if book.title == book_title.title():
                     self.i_book.pop(member)
+                    book.count += 1
                     book.isAvailable = True
                     print(f"{book.author}'s {book.title} book returned by {member}")
                     break
@@ -65,15 +66,16 @@ class Person():
             print(f"Member {member} is not found")
 
     def ledger_view(self):
-        print(f"\n{'Member':<15}{'Book Title':<30}{'Author':<30}{'Availability':<15}")
-        print('-' * 90)
+        print(f"\n{'Member':<15}{'Book Title':<30}{'Author':<30}{'Availability':<15}{'No. of Books':<15}")
+        print('-' * 115)
         for member, book in self.i_book.items():
-            availability = 'Available' if book.isAvailable else 'Unavailable'
-            print(f"{member.title():<15}{book.title:<30}{book.author:<30}{availability:<15}")
+            availability = 'Available' if book.count > 0 else 'Unavailable'
+            print(f"{member.title():<15}{book.title:<30}{book.author:<30}{availability:<15}{book.count:<15}")
             
         for book in library.books:
-            if book.isAvailable:
-                print(f"{'No Member':<15}{book.title:<30}{book.author:<30}{'Available':<15}")
+            if book not in self.i_book.values():
+                availability = 'Available' if book.count > 0 else 'Unavailable'
+                print(f"{'No Member':<15}{book.title:<30}{book.author:<30}{availability:<15}{book.count:<15}")
         print()
 
 library = Library()
@@ -92,7 +94,8 @@ while True:
     if ch == 1:
         title = input("Enter name of the book: ")
         author = input("Enter author of the book: ")
-        book = Book(title, author)
+        count = int(input("Enter no. of books: "))
+        book = Book(title, author, count)
         library.add_book(book)
     elif ch == 2:
         library.display_books()
