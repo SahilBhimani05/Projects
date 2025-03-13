@@ -84,7 +84,9 @@ class Person:
     def borrow_book(self, member, book_title):
         try:
             if member not in self.member:
-                print(f"Member '{member}' is not added")
+                print(f"Member '{member.title()}' is not added")
+            elif member in self.i_book:
+                print(f"Member '{member.title()}' can borrow only one book at a time")
             else:
                 found = False
                 for book in library.books:
@@ -96,7 +98,7 @@ class Person:
                         self.i_book[member] = book
                         book.count -= 1
                         book.isAvailable = False
-                        print(f"'{book.title}' by '{book.author}' book issued to {member}")
+                        print(f"'{book.title}' by '{book.author}' book issued to {member.title()}")
                         issue_date = datetime.now().strftime("%B %d, %Y")
                         self.transaction.append((member.title(), book.title, book.author, "Issued", issue_date, "-"))
                         break
@@ -109,14 +111,17 @@ class Person:
         try:
             if member in self.member:
                 if member in self.i_book and self.i_book[member].title == book_title.title():
-                    self.i_book.pop(member)
-                    book.count += 1
-                    book.isAvailable = True
-                    print(f"'{book.title}' by '{book.author}' book returned by {member}")
+                    returned_book = self.i_book.pop(member)
+                    for book in library.books:
+                        if book.title == returned_book.title:
+                            book.count += 1
+                            book.isAvailable = True
+                            break
+                    print(f"'{returned_book.title}' by '{returned_book.author}' book returned by {member.title()}")
                     return_date = datetime.now().strftime("%B %d, %Y")
-                    self.transaction.append((member.title(), book.title, book.author, "Returned", "-", return_date))
+                    self.transaction.append((member.title(), returned_book.title, returned_book.author, "Returned", "-", return_date))
                 else:
-                    print(f"{member.title()} did not borrow the book '{book_title.title()}'") 
+                    print(f"{member.title()} did not borrow the book '{book_title.title()}'")
             else:
                 print(f"Member '{member.title()}' is not found")
         except Exception as e:
