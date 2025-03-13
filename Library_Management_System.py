@@ -6,7 +6,6 @@ class Book:
         self.title = title.title()
         self.author = author.title()
         self.count = count
-        self.isAvailable = True
 
 class Library:
     def __init__(self):
@@ -50,6 +49,8 @@ class Library:
             for book in self.books:
                 if book.title == title.title():
                     availability = "Available" if book.count > 0 else "Unavailable"
+                    print(f"\n{"Book Title":<30}{"Author":<30}{"Availability":<30}{"No. of copies":<30}")
+                    print("-" * 110)
                     print(f"{book.title:<30}{book.author:<30}{availability:<30}{book.count:<30}")
                     found = True
                     break
@@ -97,7 +98,6 @@ class Person:
                             break
                         self.i_book[member] = book
                         book.count -= 1
-                        book.isAvailable = False
                         print(f"'{book.title}' by '{book.author}' book issued to {member.title()}")
                         issue_date = datetime.now().strftime("%B %d, %Y")
                         self.transaction.append((member.title(), book.title, book.author, "Issued", issue_date, "-"))
@@ -115,13 +115,12 @@ class Person:
                     for book in library.books:
                         if book.title == returned_book.title:
                             book.count += 1
-                            book.isAvailable = True
                             break
                     print(f"'{returned_book.title}' by '{returned_book.author}' book returned by {member.title()}")
                     return_date = datetime.now().strftime("%B %d, %Y")
                     self.transaction.append((member.title(), returned_book.title, returned_book.author, "Returned", "-", return_date))
                 else:
-                    print(f"{member.title()} did not borrow the book '{book_title.title()}'")
+                    print(f"'{member.title()}' did not borrow the book '{book_title.title()}'")
             else:
                 print(f"Member '{member.title()}' is not found")
         except Exception as e:
