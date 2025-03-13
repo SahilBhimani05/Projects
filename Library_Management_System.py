@@ -207,10 +207,11 @@ while True:
         elif ch == 10:
             person.ledger_file_view()
         elif ch == 0:
+            print("Exiting the system. Goodbye!")
             break
         else:
             print("Invalid choice!")
     except ValueError:
         print("Invalid input! Please try again.")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"An unexpected error occurred: {e}")
