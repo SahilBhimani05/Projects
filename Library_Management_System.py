@@ -142,16 +142,15 @@ class Person:
             if os.path.exists("Member_Transaction.txt"):
                 with open("Member_Transaction.txt","a") as file:
                     if not self.header:
-                        file.write(f"{"Member":<15}{"Book Title":<30}{"Author":<30}{"Transaction":<15}{"Issue Date":<20}{"Return Date":<20}" + "\n")
+                        file.write(f"{"Member":<15}{"Book Title":<30}{"Author":<30}{"Transaction":<15}{"Issue Date":<20}{"Return Date":<20}\n")
                         file.write("-" * 130 + "\n")
                         self.header = True
                     if self.header:
                         for transaction in self.transaction:
                             member, title, author, action, issue_date, return_date = transaction
-                            file.write(f"{member:<15}{title:<30}{author:<30}{action:<15}{issue_date:<20}{return_date:<20}" + "\n")
+                            file.write(f"{member:<15}{title:<30}{author:<30}{action:<15}{issue_date:<20}{return_date:<20}\n")
                         self.transaction.clear()
-                        print("Ledger view has been printed to Member_Transaction.txt")
-                        print()
+                        print("Ledger view has been printed to file")
             else:
                 print("File doesn't exist")
         except Exception as e:
