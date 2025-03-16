@@ -64,7 +64,7 @@ class Person:
         self.member = []
         self.i_book = {}
         self.transaction = []
-        self.header = False
+        self.__header = False
 
     def add_member(self, member):
         try:
@@ -129,7 +129,7 @@ class Person:
     def ledger_view(self):
         try:
             print(f"\n{"Member":<15}{"Book Title":<30}{"Author":<30}{"Transaction":<15}{"Issue Date":<20}{"Return Date":<20}")
-            print("-" * 130)
+            print("-" * 140)
             for transaction in self.transaction:
                 member, title, author, action, issue_date, return_date = transaction
                 print(f"{member:<15}{title:<30}{author:<30}{action:<15}{issue_date:<20}{return_date:<20}")
@@ -139,13 +139,13 @@ class Person:
 
     def ledger_file_view(self):
         try:
-            if os.path.exists("Member_Transaction.txt"):
-                with open("Member_Transaction.txt","a") as file:
-                    if not self.header:
+            if os.path.exists("C:\\Users\\DELL\\Desktop\\Ledger.txt"):
+                with open("C:\\Users\\DELL\\Desktop\\Ledger.txt","a") as file:
+                    if not self.__header:
                         file.write(f"{"Member":<15}{"Book Title":<30}{"Author":<30}{"Transaction":<15}{"Issue Date":<20}{"Return Date":<20}\n")
-                        file.write("-" * 130 + "\n")
-                        self.header = True
-                    if self.header:
+                        file.write("-" * 140 + "\n")
+                        self.__header = True
+                    if self.__header:
                         for transaction in self.transaction:
                             member, title, author, action, issue_date, return_date = transaction
                             file.write(f"{member:<15}{title:<30}{author:<30}{action:<15}{issue_date:<20}{return_date:<20}\n")
@@ -153,6 +153,15 @@ class Person:
                         print("Ledger view has been printed to file")
             else:
                 print("File doesn't exist")
+                operation = input("Type 'CREATE or 1' to create or Type 'ABORT or 0' to abort: ")
+                if operation.upper() == "CREATE" or operation == '1':
+                    with open("C:\\Users\\DELL\\Desktop\\Ledger.txt","a") as file:
+                        print("File created successfully")
+                        person.ledger_file_view()
+                elif operation.upper() == "ABORT" or operation == '0':
+                    pass
+                else:
+                    raise Exception("Invalid input!")
         except Exception as e:
             print(f"Error file I/O: {e}")
 
