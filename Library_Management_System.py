@@ -142,13 +142,13 @@ class Person:
             if os.path.exists("C:\\Users\\DELL\\Desktop\\Ledger.txt"):
                 with open("C:\\Users\\DELL\\Desktop\\Ledger.txt","a") as file:
                     if not self.__header:
-                        file.write(f"{"Member":<15}{"Book Title":<30}{"Author":<30}{"Transaction":<15}{"Issue Date":<20}{"Return Date":<20}\n")
-                        file.write("-" * 140 + "\n")
+                        file.write(f"{"Member":<15}{"Book Title":<30}{"Author":<30}{"Transaction":<15}{"Issue Date":<20}{"Return Date":<20}")
+                        file.write("\n" + "-" * 140 )
                         self.__header = True
                     if self.__header:
                         for transaction in self.transaction:
                             member, title, author, action, issue_date, return_date = transaction
-                            file.write(f"{member:<15}{title:<30}{author:<30}{action:<15}{issue_date:<20}{return_date:<20}\n")
+                            file.write(f"\n{member:<15}{title:<30}{author:<30}{action:<15}{issue_date:<20}{return_date:<20}")
                         self.transaction.clear()
                         print("Ledger view has been printed to file")
             else:
